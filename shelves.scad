@@ -1,8 +1,19 @@
 
 use <boxjoint.scad>;
+use <params.scad>;
 
-module shelf_side(dimensions, thickness, num_shelves, finger_len) {
+params = [
+	["num_shelves",      3],
+	["width",            30],
+	["depth",            15],
+	["height",           10],
+	["finger_length",    2],
+	["spacing",          2],
+];
+
+module shelf_side(dimensions, num_shelves, params=[]) {
 	width = dimensions[0]; depth = dimensions[1]; height = dimensions[2];
+	thickness = param_value(params, "thickness");
 
 	shelves_height = (height + thickness) * num_shelves + thickness;
 
@@ -10,24 +21,29 @@ module shelf_side(dimensions, thickness, num_shelves, finger_len) {
 		square([depth, shelves_height]);
 		for (i = [0:num_shelves]) {
 			translate([0, i * (height + thickness)])
-				box_joint_inner(depth, thickness, finger_len);
+				box_joint_inner(depth, params);
 		}
 	}
 }
 
-module shelves(dimensions, thickness, num_shelves, finger_len=undef, spacing=2) {
+module shelves(dimensions, num_shelves, params=[]) {
 	width = dimensions[0]; depth = dimensions[1]; height = dimensions[2];
+	thickness = param_value(params, "thickness");
+	spacing = param_value(params, "spacing");
 
-	shelf_side(dimensions, thickness, num_shelves, finger_len);
+	shelf_side(dimensions, num_shelves, params);
 	translate([depth + spacing, 0])
-		shelf_side(dimensions, thickness, num_shelves, finger_len);
+		shelf_side(dimensions, num_shelves, params);
 
 	for (i = [0:num_shelves]) {
 		translate([depth * 2 + spacing * 2, i * (depth + spacing)])
-			box_side([width + thickness * 2, depth], thickness, finger_len,
-			         ["none", "none", "inner", "inner"]);
+			box_side([width + thickness * 2, depth],
+			         ["none", "none", "outer", "outer"],
+			         params);
 	}
 }
 
-shelves([30, 15, 20], 1, 3, 2);
+shelves([param_value(params, "width"), param_value(params, "depth"),
+         param_value(params, "height")],
+	param_value(params, "num_shelves"), params);
 
