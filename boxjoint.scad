@@ -28,9 +28,19 @@ module box_joint_outer(length, params=[], margin=undef) {
 	}
 }
 
+// A "full" joint is the opposite of a "none" joint: while a "none"
+// joint is a null operation that cuts nothing, a "full" joint cuts off
+// the entire area where there would be a joint.
+module box_joint_full(length, params=[]) {
+	thickness = param_value(params, "thickness");
+	square([length, thickness]);
+}
+
 module box_joint_of_type(length, joint_type, params=[]) {
 	if (joint_type == "none") {
 		// ... do nothing
+	} else if (joint_type == "full") {
+		box_joint_full(length, params);
 	} else if (joint_type == "inner") {
 		box_joint_inner(length, params);
 	} else {
@@ -69,4 +79,11 @@ module box_side(dimensions, sides, params=[]) {
 		}
 	}
 }
+
+function box_joint_opposite(joint_type) =
+	(joint_type == "inner") ? "outer" :
+	(joint_type == "outer") ? "inner" :
+	(joint_type == "none") ? "full" :
+	(joint_type == "full") ? "none" :
+	undef;
 
