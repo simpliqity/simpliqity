@@ -3,11 +3,12 @@ use <boxjoint.scad>;
 use <params.scad>;
 
 params = [
-	["width",            30],
-	["depth",            15],
-	["height",           10],
-	["finger_length",    2],
-	["spacing",          2],
+	["width",              30],
+	["depth",              15],
+	["height",             10],
+	["finger_length",      2],
+	["spacing",            2],
+	["pull_hole_radius",   1],
 ];
 
 module drawer(dimensions, params=[]) {
@@ -49,9 +50,14 @@ module drawer(dimensions, params=[]) {
 		         joint_bottom_back, joint_bottom_left,
 		         joint_bottom_right], params);
 	// Front
-	translate([height + spacing, 0])
-		box_side([width, height], ["none", joint_front_bottom,
-		         joint_front_left, joint_front_right], params);
+	translate([height + spacing, 0]) {
+		difference() {
+			box_side([width, height], ["none", joint_front_bottom,
+				 joint_front_left, joint_front_right], params);
+			translate([width / 2, height / 2])
+				circle(param_value(params, "pull_hole_radius"));
+		}
+	}
 	// Left side
 	translate([0, height + spacing])
 		box_side([height, depth], [joint_left_front, joint_left_back,
