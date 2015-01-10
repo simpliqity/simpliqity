@@ -83,19 +83,20 @@ module tower(num_shelves, dimensions, params=[]) {
 	tab_flange = param_value(params, "tab_flange");
 
 	// Left side:
+	translate([spacing, spacing])
 	tower_side(num_shelves, dimensions, params);
 
 	// Back:
-	translate([depth + thickness + spacing, 0])
+	translate([depth + thickness + spacing * 2, spacing])
 		tower_back(num_shelves, dimensions, params);
 
 	// Right side:
-	translate([width + depth * 2 + thickness * 4 + spacing * 2, 0])
+	translate([width + depth * 2 + thickness * 4 + spacing * 3, spacing])
 		scale([-1, 1, 1])
 			tower_side(num_shelves, dimensions, params);
 
 	// Top and bottom:
-	translate([width + depth * 2 + thickness * 4 + spacing * 3, 0]) {
+	translate([width + depth * 2 + thickness * 4 + spacing * 4, spacing]) {
 		box_side([width + thickness, depth + thickness],
 	         ["none", "outer", "outer", "outer"],
 	         params);
@@ -106,7 +107,8 @@ module tower(num_shelves, dimensions, params=[]) {
 	}
 
 	// Tabs
-	translate([width * 2 + depth * 2 + thickness * 6 + spacing * 4, 0]) {
+	translate([width * 2 + depth * 2 + thickness * 6 + spacing * 5,
+	           spacing]) {
 		for (i = [0:num_shelves-1]) {
 			translate([0, i * (tab_length + tab_flange * 2 + spacing)]) {
 				shelf_tab(params);

@@ -48,29 +48,29 @@ module box(dimensions, params=[]) {
 	joint_right_back = box_joint_opposite(joint_back_right);
 
 	// Top
-	translate([height + spacing, height * 2 + depth + spacing * 3])
+	translate([height + spacing * 2, height * 2 + depth + spacing * 4])
 		box_side([width, depth], [joint_top_back, joint_top_front,
 		         joint_top_left, joint_top_right], params);
 	// Back
-	translate([height + spacing, height + depth + spacing * 2])
+	translate([height + spacing * 2, height + depth + spacing * 3])
 		box_side([width, height], [joint_back_bottom,
 		         joint_back_top, joint_back_left, joint_back_right],
 		         params);
 	// Bottom
-	translate([height + spacing, height + spacing])
+	translate([height + spacing * 2, height + spacing * 2])
 		box_side([width, depth], [joint_bottom_front,
 		         joint_bottom_back, joint_bottom_left,
 		         joint_bottom_right], params);
 	// Front
-	translate([height + spacing, 0])
+	translate([height + spacing * 2, spacing])
 		box_side([width, height], [joint_front_top, joint_front_bottom,
 		         joint_front_left, joint_front_right], params);
 	// Left side
-	translate([0, height + spacing])
+	translate([spacing, height + spacing * 2])
 		box_side([height, depth], [joint_left_front, joint_left_back,
 		         joint_left_top, joint_left_bottom], params);
 	// Right side
-	translate([height + width + spacing * 2, height + spacing])
+	translate([height + width + spacing * 3, height + spacing * 2])
 		box_side([height, depth], [joint_right_front, joint_right_back,
 		         joint_right_bottom, joint_right_top], params);
 }

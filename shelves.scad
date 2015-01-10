@@ -44,12 +44,14 @@ module shelves(dimensions, num_shelves, params=[]) {
 	thickness = param_value(params, "thickness");
 	spacing = param_value(params, "spacing");
 
-	shelf_side(dimensions, num_shelves, params);
-	translate([depth + spacing, 0])
+	translate([spacing, spacing])
+		shelf_side(dimensions, num_shelves, params);
+	translate([depth + spacing * 2, spacing])
 		shelf_side(dimensions, num_shelves, params);
 
 	for (i = [0:num_shelves-1]) {
-		translate([depth * 2 + spacing * 2, i * (depth + spacing)])
+		translate([depth * 2 + spacing * 3,
+		           i * (depth + spacing) + spacing])
 			box_side([width + thickness * 2, depth],
 			         ["none", "none", "outer", "outer"],
 			         params);
