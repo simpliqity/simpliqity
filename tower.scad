@@ -1,17 +1,18 @@
 use <boxjoint.scad>;
 use <params.scad>;
 
+CD_JEWEL_CASE = [125, 142, 10]
+DVD_CASE = [190, 135, 15]
+
 params = [
 	["num_shelves",        10],
-	["width",              16],
-	["depth",              20],
-	["height",             3],
-	["thickness",          1],
-	["spacing",            2],
-	["tab_inset",          2],
-	["tab_length",         3],
-	["tab_depth",          2],
-	["tab_flange",         0.5],
+	["dimensions",         CD_JEWEL_CASE],
+	["thickness",          3.175],
+	["spacing",            20],
+	["tab_inset",          20],
+	["tab_length",         20],
+	["tab_depth",          20],
+	["tab_flange",         10],
 ];
 
 module tower_side(num_shelves, dimensions, params=[]) {
@@ -115,5 +116,5 @@ module tower(num_shelves, dimensions, params=[]) {
 }
 
 tower(param_value(params, "num_shelves"),
-      [param_value(params, "width"), param_value(params, "depth"),
-       param_value(params, "height")], params);
+      param_value(params, "dimensions"),
+      params);

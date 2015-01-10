@@ -3,13 +3,13 @@
 // specified by the user.
 param_defaults = [
 	// Thickness of the material being cut.
-	["thickness",             1],
+	["thickness",             3.175],
 
 	// Length of fingers used in box joints.
-	["finger_length",         2],
+	["finger_length",         10],
 
 	// Spacing between parts when laying out a page.
-	["spacing",               2],
+	["spacing",               20],
 ];
 
 // Look up the default value of a parameter by name.

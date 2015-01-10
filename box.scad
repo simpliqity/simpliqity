@@ -3,11 +3,9 @@ use <boxjoint.scad>;
 use <params.scad>;
 
 params = [
-	["width",            30],
-	["depth",            15],
-	["height",           10],
-	["finger_length",    2],
-	["spacing",          2],
+	["dimensions",       [150, 80, 70]],
+	["finger_length",    10],
+	["spacing",          20],
 ];
 
 module box(dimensions, params=[]) {
@@ -74,6 +72,5 @@ module box(dimensions, params=[]) {
 		         joint_right_bottom, joint_right_top], params);
 }
 
-box([param_value(params, "width"), param_value(params, "depth"),
-     param_value(params, "height")], params);
+box(param_value(params, "dimensions"), params);
 

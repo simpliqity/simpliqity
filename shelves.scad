@@ -4,14 +4,12 @@ use <params.scad>;
 
 params = [
 	["num_shelves",        3],
-	["width",              30],
-	["depth",              15],
-	["height",             10],
-	["foot_height",        2],
-	["head_height",        5],
-	["head_curve_height",  5],
-	["finger_length",      2],
-	["spacing",            2],
+	["dimensions",         [150, 80, 70]],
+	["foot_height",        20],
+	["head_height",        30],
+	["head_curve_height",  30],
+	["finger_length",      10],
+	["spacing",            20],
 ];
 
 module shelf_side(dimensions, num_shelves, params=[]) {
@@ -55,7 +53,7 @@ module shelves(dimensions, num_shelves, params=[]) {
 	}
 }
 
-shelves([param_value(params, "width"), param_value(params, "depth"),
-         param_value(params, "height")],
-        param_value(params, "num_shelves"), params);
+shelves(param_value(params, "dimensions"),
+        param_value(params, "num_shelves"),
+        params);
 
