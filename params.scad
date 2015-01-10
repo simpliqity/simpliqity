@@ -2,6 +2,12 @@
 // Default values used for various common parameters, if they are not
 // specified by the user.
 param_defaults = [
+	// Kerf size (diameter of the laser beam width)
+	["kerf",                  0],
+
+	// Type of kerf to apply: straight, rounded or chamfered.
+	["kerf_type",             "straight"],
+
 	// Thickness of the material being cut.
 	["thickness",             3.175],
 

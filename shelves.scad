@@ -1,5 +1,6 @@
 
 use <boxjoint.scad>;
+use <kerf.scad>;
 use <params.scad>;
 
 params = [
@@ -9,6 +10,8 @@ params = [
 	["head_height",        30],
 	["head_curve_height",  30],
 	["finger_length",      10],
+	["kerf",               0],
+	["thickness",          3.175],
 	["spacing",            20],
 ];
 
@@ -53,7 +56,9 @@ module shelves(dimensions, num_shelves, params=[]) {
 	}
 }
 
-shelves(param_value(params, "dimensions"),
-        param_value(params, "num_shelves"),
-        params);
+kerf_apply(params) {
+	shelves(param_value(params, "dimensions"),
+	        param_value(params, "num_shelves"),
+	        params);
+}
 

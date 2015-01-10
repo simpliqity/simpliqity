@@ -1,12 +1,15 @@
 
 use <boxjoint.scad>;
+use <kerf.scad>;
 use <params.scad>;
 
 params = [
 	["dimensions",         [150, 80, 70]],
 	["finger_length",      10],
-	["spacing",            20],
 	["pull_hole_radius",   10],
+	["kerf",               0],
+	["thickness",          3.175],
+	["spacing",            20],
 ];
 
 module drawer(dimensions, params=[]) {
@@ -66,5 +69,7 @@ module drawer(dimensions, params=[]) {
 		         joint_right_bottom, "none"], params);
 }
 
-drawer(param_value(params, "dimensions"), params);
+kerf_apply(params) {
+	drawer(param_value(params, "dimensions"), params);
+}
 
