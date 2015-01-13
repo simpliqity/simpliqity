@@ -58,6 +58,7 @@ module shelf_tab(params) {
 	tab_length = param_value(params, "tab_length");
 	tab_depth = param_value(params, "tab_depth");
 	tab_flange = param_value(params, "tab_flange");
+	fn = param_value(params, "circle_detail");
 
 	union() {
 		translate([0, tab_flange])
@@ -66,7 +67,7 @@ module shelf_tab(params) {
 		translate([thickness, 0]) {
 			scale([tab_depth, tab_flange + tab_length / 2]) {
 				intersection() {
-					translate([0, 1]) scale([1 / 10, 1 / 10]) circle(10);
+					translate([0, 1]) circle(1, $fn=fn);
 					translate([0, 0]) square([1, 2]);
 				}
 			}

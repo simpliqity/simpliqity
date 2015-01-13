@@ -56,7 +56,8 @@ module drawer(dimensions, params=[]) {
 			box_side([width, height], ["none", joint_front_bottom,
 				 joint_front_left, joint_front_right], params);
 			translate([width / 2, height / 2])
-				circle(param_value(params, "pull_hole_radius"));
+				circle(param_value(params, "pull_hole_radius"),
+				       $fn=param_value(params, "circle_detail"));
 		}
 	}
 	// Left side
