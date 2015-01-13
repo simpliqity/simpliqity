@@ -27,8 +27,8 @@ module tower_side(num_shelves, dimensions, params=[]) {
 	             + thickness;
 
 	difference() {
-		box_side([depth + thickness, tower_height],
-		         ["inner", "inner", "none", "outer"],
+		box_face([depth + thickness, tower_height],
+		         ["inner", "outer", "inner", "none"],
 		         params);
 
 		for (i = [1:num_shelves-1]) {
@@ -48,7 +48,7 @@ module tower_back(num_shelves, dimensions, params=[]) {
 	tower_height = num_shelves * (height + thickness)
 	             + thickness;
 
-	box_side([width + thickness * 2, tower_height],
+	box_face([width + thickness * 2, tower_height],
 	         ["inner", "inner", "inner", "inner"],
 	         params);
 }
@@ -98,12 +98,12 @@ module tower(num_shelves, dimensions, params=[]) {
 
 	// Top and bottom:
 	translate([width + depth * 2 + thickness * 4 + spacing * 4, spacing]) {
-		box_side([width + thickness, depth + thickness],
-	         ["none", "outer", "outer", "outer"],
-	         params);
+		box_face([width + thickness, depth + thickness],
+		         ["outer", "outer", "none", "outer"],
+		         params);
 		translate([0, depth + thickness + spacing])
-			box_side([width + thickness, depth + thickness],
-			         ["none", "outer", "outer", "outer"],
+			box_face([width + thickness, depth + thickness],
+			         ["outer", "outer", "none", "outer"],
 			         params);
 	}
 

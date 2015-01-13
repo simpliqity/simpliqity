@@ -42,32 +42,32 @@ module drawer(dimensions, params=[]) {
 
 	// Back
 	translate([height + spacing * 2, height + depth + spacing * 3])
-		box_side([width, height], [joint_back_bottom,
-		         "none", joint_back_left, joint_back_right],
-		         params);
+		box_face([width, height], ["none", joint_back_right,
+		         joint_back_bottom, joint_back_left], params);
+	// Left side
+	translate([spacing, height + spacing * 2])
+		box_face([height, depth], [joint_left_back, joint_left_bottom,
+		         joint_left_front, "none"], params);
 	// Bottom
 	translate([height + spacing * 2, height + spacing * 2])
-		box_side([width, depth], [joint_bottom_front,
-		         joint_bottom_back, joint_bottom_left,
-		         joint_bottom_right], params);
+		box_face([width, depth], [joint_bottom_back,
+		         joint_bottom_right, joint_bottom_front,
+		         joint_bottom_back], params);
+	// Right side
+	translate([height + width + spacing * 3, height + spacing * 2])
+		box_face([height, depth], [joint_right_back, "none",
+		         joint_right_front, joint_right_bottom], params);
 	// Front
 	translate([height + spacing * 2, spacing]) {
 		difference() {
-			box_side([width, height], ["none", joint_front_bottom,
-				 joint_front_left, joint_front_right], params);
+			box_face([width, height], [joint_front_bottom,
+			         joint_front_right, "none", joint_front_left],
+			         params);
 			translate([width / 2, height / 2])
 				circle(param_value(params, "pull_hole_radius"),
 				       $fn=param_value(params, "circle_detail"));
 		}
 	}
-	// Left side
-	translate([spacing, height + spacing * 2])
-		box_side([height, depth], [joint_left_front, joint_left_back,
-		         "none", joint_left_bottom], params);
-	// Right side
-	translate([height + width + spacing * 3, height + spacing * 2])
-		box_side([height, depth], [joint_right_front, joint_right_back,
-		         joint_right_bottom, "none"], params);
 }
 
 kerf_apply(params) {

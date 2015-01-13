@@ -199,24 +199,24 @@ module box_joint_for_edge(dimensions, edge="left", joint_type="inner",
 // Draw a complete rectangular side of a box, where the side has the
 // specified 2D dimensions. 'edges' is a list with four entries, one
 // for each edge of the rectangle to specify the type of joint to
-// use on each edge.
-module box_side(dimensions, edges, params=[]) {
+// use on each edge (clockwise from top edge).
+module box_face(dimensions, edges, params=[]) {
 	difference() {
 		square(dimensions);
 		union() {
-			box_joint_for_edge(dimensions, "bottom", edges[0],
+			box_joint_for_edge(dimensions, "top", edges[0],
 			                   params);
-			box_joint_for_edge(dimensions, "top", edges[1],
+			box_joint_for_edge(dimensions, "right", edges[1],
 			                   params);
-			box_joint_for_edge(dimensions, "left", edges[2],
+			box_joint_for_edge(dimensions, "bottom", edges[2],
 			                   params);
-			box_joint_for_edge(dimensions, "right", edges[3],
+			box_joint_for_edge(dimensions, "left", edges[3],
 			                   params);
 		}
 	}
 }
 
-// Given a particular joint type (of the types accepted by
+:/ Given a particular joint type (of the types accepted by
 // box_joint_for_edge(), return the complementary joint type that
 // should be used on the joining face.
 function box_joint_opposite(joint_type) =

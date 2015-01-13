@@ -50,30 +50,32 @@ module box(dimensions, params=[]) {
 
 	// Top
 	translate([height + spacing * 2, height * 2 + depth + spacing * 4])
-		box_side([width, depth], [joint_top_back, joint_top_front,
-		         joint_top_left, joint_top_right], params);
+		box_face([width, depth], [joint_top_front, joint_top_right,
+		         joint_top_back, joint_top_left], params);
 	// Back
 	translate([height + spacing * 2, height + depth + spacing * 3])
-		box_side([width, height], [joint_back_bottom,
-		         joint_back_top, joint_back_left, joint_back_right],
-		         params);
-	// Bottom
-	translate([height + spacing * 2, height + spacing * 2])
-		box_side([width, depth], [joint_bottom_front,
-		         joint_bottom_back, joint_bottom_left,
-		         joint_bottom_right], params);
-	// Front
-	translate([height + spacing * 2, spacing])
-		box_side([width, height], [joint_front_top, joint_front_bottom,
-		         joint_front_left, joint_front_right], params);
+		box_face([width, height], [joint_back_top, joint_back_right,
+		         joint_back_bottom, joint_back_left], params);
 	// Left side
 	translate([spacing, height + spacing * 2])
-		box_side([height, depth], [joint_left_front, joint_left_back,
-		         joint_left_top, joint_left_bottom], params);
+		box_face([height, depth], [joint_left_back,
+		         joint_left_bottom, joint_left_front,
+		         joint_left_top], params);
+	// Bottom
+	translate([height + spacing * 2, height + spacing * 2])
+		box_face([width, depth], [joint_bottom_back,
+		         joint_bottom_right, joint_bottom_front,
+		         joint_bottom_left], params);
 	// Right side
 	translate([height + width + spacing * 3, height + spacing * 2])
-		box_side([height, depth], [joint_right_front, joint_right_back,
-		         joint_right_bottom, joint_right_top], params);
+		box_face([height, depth], [joint_right_back,
+		         joint_right_top, joint_right_front,
+		         joint_right_bottom], params);
+	// Front
+	translate([height + spacing * 2, spacing])
+		box_face([width, height], [joint_front_bottom,
+		         joint_front_right, joint_front_top,
+		         joint_front_left], params);
 }
 
 kerf_apply(params) {

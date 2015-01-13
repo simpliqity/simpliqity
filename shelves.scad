@@ -52,8 +52,8 @@ module shelves(dimensions, num_shelves, params=[]) {
 	for (i = [0:num_shelves-1]) {
 		translate([depth * 2 + spacing * 3,
 		           i * (depth + spacing) + spacing])
-			box_side([width + thickness * 2, depth],
-			         ["none", "none", "outer", "outer"],
+			box_face([width + thickness * 2, depth],
+			         ["none", "outer", "none", "outer"],
 			         params);
 	}
 }
