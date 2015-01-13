@@ -14,6 +14,13 @@ param_defaults = [
 	// Length of fingers used in box joints.
 	["finger_length",         10],
 
+	// Radius of rounding used on corners of box joint fingers.
+	// A value of zero gives a square edge.
+	["finger_rounding",       0],
+
+	// Amount of detail used when drawing circles ($fn= value).
+	["circle_detail",         50],
+
 	// Spacing between parts when laying out a page.
 	["spacing",               20],
 ];

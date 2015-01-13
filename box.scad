@@ -4,11 +4,12 @@ use <kerf.scad>;
 use <params.scad>;
 
 params = [
-	["dimensions",       [150, 80, 70]],
-	["finger_length",    10],
-	["kerf",             0],
-	["thickness",        3.175],
-	["spacing",          20],
+	["dimensions",          [150, 80, 70]],
+	["finger_length",       10],
+	["finger_rounding",     0],
+	["kerf",                0],
+	["thickness",           3.175],
+	["spacing",             20],
 ];
 
 module box(dimensions, params=[]) {
