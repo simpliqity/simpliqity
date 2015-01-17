@@ -216,7 +216,7 @@ module box_face(dimensions, edges, params=[]) {
 	}
 }
 
-:/ Given a particular joint type (of the types accepted by
+// Given a particular joint type (of the types accepted by
 // box_joint_for_edge(), return the complementary joint type that
 // should be used on the joining face.
 function box_joint_opposite(joint_type) =
