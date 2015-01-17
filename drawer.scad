@@ -3,7 +3,7 @@ use <boxjoint.scad>;
 use <kerf.scad>;
 use <params.scad>;
 
-params = [
+$params = [
 	["dimensions",         [150, 80, 70]],
 	["finger_length",      10],
 	["pull_hole_radius",   10],
@@ -12,9 +12,9 @@ params = [
 	["spacing",            20],
 ];
 
-module drawer(dimensions, params=[]) {
+module drawer(dimensions) {
 	width = dimensions[0]; depth = dimensions[1]; height = dimensions[2];
-	spacing = param_value(params, "spacing");
+	spacing = param_value("spacing");
 
 	// These variables control the joint types used for every joint
 	// on the drawer. The naming convention is: joint_{face}_{joint}.
@@ -43,34 +43,33 @@ module drawer(dimensions, params=[]) {
 	// Back
 	translate([height + spacing * 2, height + depth + spacing * 3])
 		box_face([width, height], ["none", joint_back_right,
-		         joint_back_bottom, joint_back_left], params);
+		         joint_back_bottom, joint_back_left]);
 	// Left side
 	translate([spacing, height + spacing * 2])
 		box_face([height, depth], [joint_left_back, joint_left_bottom,
-		         joint_left_front, "none"], params);
+		         joint_left_front, "none"]);
 	// Bottom
 	translate([height + spacing * 2, height + spacing * 2])
 		box_face([width, depth], [joint_bottom_back,
 		         joint_bottom_right, joint_bottom_front,
-		         joint_bottom_back], params);
+		         joint_bottom_back]);
 	// Right side
 	translate([height + width + spacing * 3, height + spacing * 2])
 		box_face([height, depth], [joint_right_back, "none",
-		         joint_right_front, joint_right_bottom], params);
+		         joint_right_front, joint_right_bottom]);
 	// Front
 	translate([height + spacing * 2, spacing]) {
 		difference() {
 			box_face([width, height], [joint_front_bottom,
-			         joint_front_right, "none", joint_front_left],
-			         params);
+			         joint_front_right, "none", joint_front_left]);
 			translate([width / 2, height / 2])
-				circle(param_value(params, "pull_hole_radius"),
-				       $fn=param_value(params, "circle_detail"));
+				circle(param_value("pull_hole_radius"),
+				       $fn=param_value("circle_detail"));
 		}
 	}
 }
 
-kerf_apply(params) {
-	drawer(param_value(params, "dimensions"), params);
+kerf_apply() {
+	drawer(param_value("dimensions"));
 }
 

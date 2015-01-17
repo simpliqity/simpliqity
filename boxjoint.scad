@@ -6,8 +6,8 @@ use <params.scad>;
 // slightly larger than the minimum. We default to twice the material
 // thickness, as we want to avoid an area that may be cut off by
 // another edge.
-function box_joint_min_margin(params) =
-	param_value(params, "thickness") * 2;
+function box_joint_min_margin() =
+	param_value("thickness") * 2;
 
 // Calculate the number of fingers to put on an edge (both inner and
 // outer). The number of fingers is always odd, so that the joint is
@@ -28,11 +28,11 @@ function box_joint_actual_margin(length, finger_len, min_margin) =
 // Draw the inner part of a box joint of the given length, according
 // to the provided parameters. Edges are square; this just draws
 // rectangles in a line.
-module box_joint_inner(length, params=[]) {
-	thickness = param_value(params, "thickness");
-	finger_len = param_value(params, "finger_length");
+module box_joint_inner(length) {
+	thickness = param_value("thickness");
+	finger_len = param_value("finger_length");
 
-	min_margin = box_joint_min_margin(params);
+	min_margin = box_joint_min_margin();
 	num_fingers = box_joint_num_fingers(length, finger_len, min_margin);
 	margin = box_joint_actual_margin(length, finger_len, min_margin);
 
@@ -48,11 +48,11 @@ module box_joint_inner(length, params=[]) {
 // Draw the outer part of a box joint of the given length. The result
 // is complementary to what box_joint_inner() draws; combined together
 // they give a continuous rectangle of length 'length'.
-module box_joint_outer(length, params=[]) {
-	thickness = param_value(params, "thickness");
+module box_joint_outer(length) {
+	thickness = param_value("thickness");
 	difference() {
 		square([length, thickness]);
-		box_joint_inner(length, params);
+		box_joint_inner(length);
 	}
 }
 
@@ -86,13 +86,13 @@ module roundrect(dimensions, radius, fn=undef) {
 // of a box joint together as roundrects; taking the intersection of
 // this and a box_joint_{inner,outer} gives a box joint with rounded
 // edges.
-module box_edge_rounding_mask(length, params=[]) {
-	thickness = param_value(params, "thickness");
-	finger_len = param_value(params, "finger_length");
-	radius = param_value(params, "finger_rounding");
-	fn = param_value(params, "circle_detail");
+module box_edge_rounding_mask(length) {
+	thickness = param_value("thickness");
+	finger_len = param_value("finger_length");
+	radius = param_value("finger_rounding");
+	fn = param_value("circle_detail");
 
-	min_margin = box_joint_min_margin(params);
+	min_margin = box_joint_min_margin();
 	num_fingers = box_joint_num_fingers(length, finger_len, min_margin);
 	margin = box_joint_actual_margin(length, finger_len, min_margin);
 
@@ -117,8 +117,8 @@ module box_edge_rounding_mask(length, params=[]) {
 
 // Draw the inner edge of a box face, applying a rounding mask to give
 // rounded edges.
-module box_edge_joint_inner(length, params=[]) {
-	thickness = param_value(params, "thickness");
+module box_edge_joint_inner(length) {
+	thickness = param_value("thickness");
 
 	// Remember that we are working backwards in drawing what we
 	// want to cut away from the box face. So we must actually
@@ -126,22 +126,22 @@ module box_edge_joint_inner(length, params=[]) {
 	difference() {
 		square([length, thickness]);
 		intersection() {
-			box_edge_rounding_mask(length, params);
-			box_joint_outer(length, params);
+			box_edge_rounding_mask(length);
+			box_joint_outer(length);
 		}
 	}
 }
 
 // Draw the outers edge of a box face, applying a rounding mask to give
 // rounded edges.
-module box_edge_joint_outer(length, params=[]) {
-	thickness = param_value(params, "thickness");
+module box_edge_joint_outer(length) {
+	thickness = param_value("thickness");
 
 	difference() {
 		square([length, thickness]);
 		intersection() {
-			box_edge_rounding_mask(length, params);
-			box_joint_inner(length, params);
+			box_edge_rounding_mask(length);
+			box_joint_inner(length);
 		}
 	}
 }
@@ -149,8 +149,8 @@ module box_edge_joint_outer(length, params=[]) {
 // A "full" joint is the opposite of a "none" joint: while a "none"
 // joint is a null operation that cuts nothing, a "full" joint cuts off
 // the entire area where there would be a joint.
-module box_joint_full(length, params=[]) {
-	thickness = param_value(params, "thickness");
+module box_joint_full(length) {
+	thickness = param_value("thickness");
 	square([length, thickness]);
 }
 
@@ -162,37 +162,33 @@ module box_joint_full(length, params=[]) {
 //  'inner': side of a box joint that fingers are inserted into.
 //  'outer': side of the box joint with the fingers that are inserted
 //           into the 'inner' joint type.
-module box_edge_joint_of_type(length, joint_type, params=[]) {
+module box_edge_joint_of_type(length, joint_type) {
 	if (joint_type == "none") {
 		// ... do nothing
 	} else if (joint_type == "full") {
-		box_joint_full(length, params);
+		box_joint_full(length);
 	} else if (joint_type == "inner") {
-		box_edge_joint_inner(length, params);
+		box_edge_joint_inner(length);
 	} else {
-		box_edge_joint_outer(length, params);
+		box_edge_joint_outer(length);
 	}
 }
 
 // Draw a box joint on the edge of a box face, on the given edge and
 // of the given type. Valid edges are: 'top', 'bottom', 'left',
 // 'right'.
-module box_joint_for_edge(dimensions, edge="left", joint_type="inner",
-                          params=[]) {
+module box_joint_for_edge(dimensions, edge="left", joint_type="inner") {
 	if (edge == "top") {
 		translate(dimensions) rotate(180)
-			box_edge_joint_of_type(dimensions[0], joint_type,
-			                       params);
+			box_edge_joint_of_type(dimensions[0], joint_type);
 	} else if (edge == "bottom") {
-		box_edge_joint_of_type(dimensions[0], joint_type, params);
+		box_edge_joint_of_type(dimensions[0], joint_type);
 	} else if (edge == "left") {
 		translate([0, dimensions[1]]) rotate(270)
-			box_edge_joint_of_type(dimensions[1], joint_type,
-			                       params);
+			box_edge_joint_of_type(dimensions[1], joint_type);
 	} else if (edge == "right") {
 		translate([dimensions[0], 0]) rotate(90)
-			box_edge_joint_of_type(dimensions[1], joint_type,
-			                       params);
+			box_edge_joint_of_type(dimensions[1], joint_type);
 	}
 }
 
@@ -200,18 +196,14 @@ module box_joint_for_edge(dimensions, edge="left", joint_type="inner",
 // specified 2D dimensions. 'edges' is a list with four entries, one
 // for each edge of the rectangle to specify the type of joint to
 // use on each edge (clockwise from top edge).
-module box_face(dimensions, edges, params=[]) {
+module box_face(dimensions, edges) {
 	difference() {
 		square(dimensions);
 		union() {
-			box_joint_for_edge(dimensions, "top", edges[0],
-			                   params);
-			box_joint_for_edge(dimensions, "right", edges[1],
-			                   params);
-			box_joint_for_edge(dimensions, "bottom", edges[2],
-			                   params);
-			box_joint_for_edge(dimensions, "left", edges[3],
-			                   params);
+			box_joint_for_edge(dimensions, "top", edges[0]);
+			box_joint_for_edge(dimensions, "right", edges[1]);
+			box_joint_for_edge(dimensions, "bottom", edges[2]);
+			box_joint_for_edge(dimensions, "left", edges[3]);
 		}
 	}
 }

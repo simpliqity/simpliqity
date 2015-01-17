@@ -31,12 +31,12 @@ function _param_default_value(name, i, fallback) =
 	(param_defaults[i][0] == name) ? param_defaults[i][1] :
 	_param_default_value(name, i + 1, fallback);
 
-function _param_value(params, name, i, fallback=undef) =
-	(i >= len(params)) ? _param_default_value(name, 0, fallback) :
-	(params[i][0] == name) ? params[i][1] :
-	_param_value(params, name, i + 1, fallback);
+function _param_value(name, i, fallback=undef) =
+	(i >= len($params)) ? _param_default_value(name, 0, fallback) :
+	($params[i][0] == name) ? $params[i][1] :
+	_param_value(name, i + 1, fallback);
 
 // Look up the value of a parameter from a parameters list by name.
-function param_value(params, name, fallback=undef) =
-	_param_value(params, name, 0, fallback);
+function param_value(name, fallback=undef) =
+	_param_value(name, 0, fallback);
 

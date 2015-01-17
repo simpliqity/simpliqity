@@ -1,9 +1,9 @@
 
 use <params.scad>;
 
-module kerf_apply(params=[]) {
-	kerf = param_value(params, "kerf");
-	kerf_type = param_value(params, "kerf_type");
+module kerf_apply() {
+	kerf = param_value("kerf");
+	kerf_type = param_value("kerf_type");
 
 	// Current versions of OpenSCAD don't have the offset() module
 	// in the standard library, so if kerf=0 (the default) then

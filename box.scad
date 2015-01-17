@@ -3,7 +3,7 @@ use <boxjoint.scad>;
 use <kerf.scad>;
 use <params.scad>;
 
-params = [
+$params = [
 	["dimensions",          [150, 80, 70]],
 	["finger_length",       10],
 	["finger_rounding",     0],
@@ -12,9 +12,9 @@ params = [
 	["spacing",             20],
 ];
 
-module box(dimensions, params=[]) {
+module box(dimensions) {
 	width = dimensions[0]; depth = dimensions[1]; height = dimensions[2];
-	spacing = param_value(params, "spacing");
+	spacing = param_value("spacing");
 
 	// These variables control the joint types used for every joint
 	// on the box. The naming convention is: joint_{face}_{joint}.
@@ -51,34 +51,34 @@ module box(dimensions, params=[]) {
 	// Top
 	translate([height + spacing * 2, height * 2 + depth + spacing * 4])
 		box_face([width, depth], [joint_top_front, joint_top_right,
-		         joint_top_back, joint_top_left], params);
+		         joint_top_back, joint_top_left]);
 	// Back
 	translate([height + spacing * 2, height + depth + spacing * 3])
 		box_face([width, height], [joint_back_top, joint_back_right,
-		         joint_back_bottom, joint_back_left], params);
+		         joint_back_bottom, joint_back_left]);
 	// Left side
 	translate([spacing, height + spacing * 2])
 		box_face([height, depth], [joint_left_back,
 		         joint_left_bottom, joint_left_front,
-		         joint_left_top], params);
+		         joint_left_top]);
 	// Bottom
 	translate([height + spacing * 2, height + spacing * 2])
 		box_face([width, depth], [joint_bottom_back,
 		         joint_bottom_right, joint_bottom_front,
-		         joint_bottom_left], params);
+		         joint_bottom_left]);
 	// Right side
 	translate([height + width + spacing * 3, height + spacing * 2])
 		box_face([height, depth], [joint_right_back,
 		         joint_right_top, joint_right_front,
-		         joint_right_bottom], params);
+		         joint_right_bottom]);
 	// Front
 	translate([height + spacing * 2, spacing])
 		box_face([width, height], [joint_front_bottom,
 		         joint_front_right, joint_front_top,
-		         joint_front_left], params);
+		         joint_front_left]);
 }
 
-kerf_apply(params) {
-	box(param_value(params, "dimensions"), params);
+kerf_apply() {
+	box(param_value("dimensions"));
 }
 
