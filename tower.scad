@@ -4,6 +4,7 @@ use <params.scad>;
 
 CD_JEWEL_CASE = [125, 142, 10];
 DVD_CASE = [190, 135, 15];
+// TODO: Add other standard sizes for common items
 
 $params = [
 	["num_shelves",        10],
